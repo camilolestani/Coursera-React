@@ -20,11 +20,12 @@ import {
 } from "reactstrap";
 import { Control, LocalForm, Errors, actions } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 function RenderDish({ dish }) {
   return (
     <Card>
-      <CardImg width="100%" object src={dish.image} alt={dish.name} />
+      <CardImg top src={baseUrl + dish.image} alt={dish.name} />
       <CardBody>
         <CardTitle>{dish.name}</CardTitle>
         <CardText> {dish.description} </CardText>
@@ -33,7 +34,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
   if (comments != null) {
     const dishComments = comments.map(comment => {
       return (
@@ -55,7 +56,7 @@ function RenderComments({ comments, addComment, dishId }) {
       <div>
         <h4>Comments</h4>
         <ul className="list-unstyled">{dishComments}</ul>
-        <CommentForm dishId={dishId} addComment={addComment} />
+        <CommentForm dishId={dishId} postComment={postComment} />
       </div>
     );
   } else {
@@ -102,7 +103,7 @@ const DishDetail = props => {
           <div className="col-12 col-md-5 m-1">
             <RenderComments
               comments={props.comments}
-              addComment={props.addComment}
+              postComment={props.postComment}
               dishId={props.dish.id}
             />
           </div>
@@ -123,7 +124,7 @@ class CommentForm extends Component {
     super(props);
 
     this.toggleModal = this.toggleModal.bind(this);
-    this.submitComment = this.submitComment.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       isModalOpen: false
@@ -136,8 +137,8 @@ class CommentForm extends Component {
     });
   }
 
-  submitComment(values) {
-    this.props.addComment(
+  handleSubmit(values) {
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
@@ -157,7 +158,7 @@ class CommentForm extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={values => this.submitComment(values)}>
+            <LocalForm onSubmit={values => this.handleSubmit(values)}>
               <Row className="form-group">
                 <Label htmlFor="rating" md={2} className="form-label">
                   Rating
