@@ -1,24 +1,8 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  Breadcrumb,
-  BreadcrumbItem
-} from "reactstrap";
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Button,
-  Row,
-  Label,
-  Col
-} from "reactstrap";
-import { Control, LocalForm, Errors, actions } from "react-redux-form";
+import { Modal, ModalHeader, ModalBody, Button, Row, Label, Col } from "reactstrap";
+import { Control, LocalForm, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 import { FadeTransform, Fade, Stagger } from "react-animation-components";
@@ -152,12 +136,7 @@ class CommentForm extends Component {
   }
 
   handleSubmit(values) {
-    this.props.postComment(
-      this.props.dishId,
-      values.rating,
-      values.author,
-      values.comment
-    );
+    this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     this.toggleModal();
   }
 
@@ -178,12 +157,7 @@ class CommentForm extends Component {
                   Rating
                 </Label>
                 <Col md={12}>
-                  <Control.select
-                    model=".rating"
-                    id="rating"
-                    name="rating"
-                    className="form-control"
-                  >
+                  <Control.select model=".rating" id="rating" name="rating" className="form-control">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
